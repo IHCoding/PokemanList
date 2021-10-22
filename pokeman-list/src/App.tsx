@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './components/header';
-import PokemonCardList from './components/pokemon-card-list';
-
+import PokemonCardList from './components/pokemon/pokemon-card-list';
+import { ThemeProvider } from 'styled-components';
+import theme from './utils/themes/PokemanTheme';
 const AppRoot = styled.div``;
 
 const AppBody = styled.div`
@@ -15,13 +16,15 @@ const AppBody = styled.div`
 
 const App = () => {
   return (
-    <AppRoot>
-      <Header />
+    <ThemeProvider theme={theme}>
+      <AppRoot>
+        <Header />
 
-      <AppBody>
-        <PokemonCardList />
-      </AppBody>
-    </AppRoot>
+        <AppBody>
+          <PokemonCardList />
+        </AppBody>
+      </AppRoot>
+    </ThemeProvider>
   );
 };
 

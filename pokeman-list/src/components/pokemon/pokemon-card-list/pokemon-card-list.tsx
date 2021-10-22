@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { PokemonItem } from '../../utils/cmd/data-types/data-types';
+import { PokemonItem } from '../../../utils/cmd/data-types/data-types';
 import PokemonCard from '../pokemon-card';
 
 // const urlImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png?raw=true`;
