@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import HeaderSearch from './header-search/header-search';
 
 const HeaderRoot = styled.header`
   display: flex;
@@ -30,7 +31,7 @@ const HeaderSub = styled.div`
   flex-grow: 0;
 `;
 
-const HeaderBrand = styled.div`
+const HeaderName = styled.div`
   color: #ffffff;
   background-color: none;
   font-size: 30px;
@@ -43,10 +44,12 @@ export const Header: React.FC = () => {
     <HeaderRoot>
       <HeaderInner>
         <HeaderMain>
-          <HeaderBrand>PokemanList</HeaderBrand>
+          <HeaderName>PokemanList</HeaderName>
         </HeaderMain>
 
-        <HeaderSub>{/* <HeaderSearch /> */}</HeaderSub>
+        <HeaderSub>
+          <HeaderSearch />
+        </HeaderSub>
       </HeaderInner>
     </HeaderRoot>
   );

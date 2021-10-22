@@ -10,13 +10,14 @@ const PokemonCardContainerRoot = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  margin: 0 8px;
+  margin: 8px;
   border-radius: 8px;
   background-color: #25d280;
-  width: 25%;
-  height: 25%;
+  width: 20%;
+  height: 20%;
   padding: 0 16px;
   display: block;
+  box-shadow: 2px 2px 2px;
 
   &:hover {
     transform: scale(1.05);
@@ -24,8 +25,8 @@ const PokemonCardContainerRoot = styled.div`
 `;
 
 const PokemonCardImage = styled(Image)`
-  width: 100%;
-  height: 100%;
+  width: 300px;
+  height: 300px;
   margin: 8px 2px;
 `;
 
@@ -44,6 +45,7 @@ const PokemonCardContentDetails = styled.h3`
   margin: 8px;
   display: block;
   text-transform: capitalize;
+  box-shadow: 0px 1px 0px;
 `;
 
 interface Props {
@@ -51,9 +53,7 @@ interface Props {
   key: string;
 }
 
-const PokemonCard: React.FC<Props> = (props: Props) => {
-  const { pokemonItem } = props;
-
+const PokemonCard: React.FC<Props> = ({ pokemonItem }: Props) => {
   const [pokemonItemDetails, setPokemonDetails] =
     useState<PokemonItemDetails>();
 
@@ -61,7 +61,6 @@ const PokemonCard: React.FC<Props> = (props: Props) => {
     const res = await fetch(pokemonItem.url);
     const data = await res.json();
     setPokemonDetails(data);
-
     console.log(data);
   };
 
