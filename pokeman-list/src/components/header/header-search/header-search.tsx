@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import { PokemonItem } from '../../../utils/cmd/data-types/data-types';
 import SearchIcon from '../../../utils/custom-components/icons/search-icon';
 import useDebounce from '../../../utils/custom-hooks';
+import PokemonCard from '../../pokemon/pokemon-card';
+import PokemonCardList from '../../pokemon/pokemon-card-list';
 
 const HeaderSearchRoot = styled.div`
   border-radius: ${(props) => props.theme.spacing(1)};
   background-color: rgba(229, 229, 226, 0.98);
   display: flex;
-  margin: ${(props) => `0 ${props.theme.spacing(4)}`};
+  right: 4%;
+  margin: ${(props) => `${props.theme.spacing(-14)}`};
   padding: ${(props) => `${props.theme.spacing(1)} 0`};
   position: relative;
 `;
@@ -28,30 +31,35 @@ const HeaderSearchInput = styled.input`
   outline: none;
   text-indent: ${(props) => props.theme.spacing(7)};
   height: 30px;
-  width: 254px;
+  width: 300px;
 `;
+
+interface Props {
+  pokemonItem?: PokemonItem;
+}
 
 export const HeaderSearch: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchTerm: string = useDebounce(searchQuery, 500);
 
-  const [searchResults, setSearchResults] = React.useState<PokemonItem[]>([]);
+  const [searchResults, setSearchResults] = useState<PokemonItem[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
 
-  //   useEffect( () => {
-  //       if(debouncedSearchTerm.length > 1) {
-  //           (async () => {
-  //               try {
-  //                   const data = await
-  //                     const res = await fetch(pokemonItem.url);
-  //                     const data = await res.json();
-  //                     setPokemonDetails(data);
-  //                   }
-  //               } catch (error) {
-
-  //               }
-  //           })
-  //       }
-  //   }, [] )
+  useEffect(() => {
+    if (debouncedSearchTerm.length > 1) {
+      (async () => {
+        try {
+          const res = await fetch('https://pokeapi.co/api/v2/pokemon');
+          const data = await res.json();
+          setSearchResults(data);
+        } catch (error) {
+          console.log('error getting the searched values');
+        }
+      })();
+    } else {
+      setSearchResults([]);
+    }
+  }, [debouncedSearchTerm]);
 
   return (
     <HeaderSearchRoot>
@@ -61,6 +69,17 @@ export const HeaderSearch: React.FC = () => {
         value={searchQuery}
         type="search"
       />
+      {/* <PokemonCardList>
+        {searchSuggestions.length > 0 && (
+          <div>
+            {searchSuggestions.map((suggestion, index) => {
+              <PokemonCard key={index.toString()} pokemonItem={}>
+                {suggestion}
+              </PokemonCard>;
+            })}
+          </div>
+        )}
+      </PokemonCardList> */}
     </HeaderSearchRoot>
   );
 };

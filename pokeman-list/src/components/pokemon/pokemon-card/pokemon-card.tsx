@@ -10,14 +10,13 @@ const PokemonCardContainerRoot = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  margin: 8px;
-  border-radius: 8px;
   background-color: #25d280;
-  width: 20%;
-  height: 20%;
-  padding: 0 16px;
-  display: block;
   box-shadow: 2px 2px 2px;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 0 16px;
+  min-width: 300px;
+  min-height: 300px;
 
   &:hover {
     transform: scale(1.05);
@@ -36,16 +35,17 @@ const PokemonCardContentContainer = styled.div`
   text-align: left;
   font-family: 'Roboto', serif;
   font-size: 14px;
+  margin-bottom: 4px;
 `;
 
 const PokemonCardContentDetails = styled.h3`
-  display: flex;
   font-weight: normal;
   color: #fff;
   margin: 8px;
   display: block;
+  white-space: wrap;
   text-transform: capitalize;
-  box-shadow: 0px 1px 0px;
+  box-shadow: 0px 1px 0px lightGrey;
 `;
 
 interface Props {
@@ -59,14 +59,14 @@ const PokemonCard: React.FC<Props> = ({ pokemonItem }: Props) => {
 
   const getPokemonItem = async () => {
     const res = await fetch(pokemonItem.url);
+
     const data = await res.json();
     setPokemonDetails(data);
-    console.log(data);
   };
 
   useEffect(() => {
     getPokemonItem();
-  }, []);
+  }, [pokemonItem]);
 
   return (
     <PokemonCardContainerRoot>
@@ -86,7 +86,7 @@ const PokemonCard: React.FC<Props> = ({ pokemonItem }: Props) => {
         <PokemonCardContentDetails>
           Abilities:&nbsp;
           {pokemonItemDetails?.abilities.map((item, index) => (
-            <div>{item.ability.name}&nbsp;</div>
+            <div key={index}>{item.ability.name}&nbsp;</div>
           ))}
         </PokemonCardContentDetails>
       </PokemonCardContentContainer>

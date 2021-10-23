@@ -3,6 +3,7 @@
 export interface PokemonItem {
     url: string;
     name: string;
+    pokemonItemDetails: PokemonItemDetails;
 }
 
 export interface PokemonItemDetails {

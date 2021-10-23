@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
     <HeaderRoot>
       <HeaderInner>
         <HeaderMain>
-          <HeaderName>PokemanList</HeaderName>
+          <HeaderName>Pokemons</HeaderName>
         </HeaderMain>
 
         <HeaderSub>
