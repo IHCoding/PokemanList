@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { PokemonItem } from '../../../utils/cmd/data-types/data-types';
 import SearchIcon from '../../../utils/custom-components/icons/search-icon';
 import useDebounce from '../../../utils/custom-hooks';
 import PokemonCard from '../../pokemon/pokemon-card';
 import PokemonCardList from '../../pokemon/pokemon-card-list';
+import PokemonContext from '../../../context/pokemon-context';
 
 const HeaderSearchRoot = styled.div`
   border-radius: ${(props) => props.theme.spacing(1)};
@@ -39,19 +40,21 @@ interface Props {
 }
 
 export const HeaderSearch: React.FC = () => {
+  const pokemonCtx = useContext(PokemonContext);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchTerm: string = useDebounce(searchQuery, 500);
 
   const [searchResults, setSearchResults] = useState<PokemonItem[]>([]);
-  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     if (debouncedSearchTerm.length > 1) {
       (async () => {
         try {
-          const res = await fetch('https://pokeapi.co/api/v2/pokemon');
+          const res = await fetch(
+            `https://pokeapi.co/api/v2/pokemon?=search${debouncedSearchTerm}`
+          );
           const data = await res.json();
-          setSearchResults(data);
+          pokemonCtx.getSearchItems(data);
         } catch (error) {
           console.log('error getting the searched values');
         }

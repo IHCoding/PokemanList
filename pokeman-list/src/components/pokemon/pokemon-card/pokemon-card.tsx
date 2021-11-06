@@ -59,7 +59,6 @@ const PokemonCard: React.FC<Props> = ({ pokemonItem }: Props) => {
 
   const getPokemonItem = async () => {
     const res = await fetch(pokemonItem.url);
-
     const data = await res.json();
     setPokemonDetails(data);
   };
