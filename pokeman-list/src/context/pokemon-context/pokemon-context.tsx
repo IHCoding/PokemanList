@@ -54,6 +54,7 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
   };
 
   const getSearchedPokemons = (arr: PokemonItem[]) => {
+    // console.log('arrvalue', arr);
     if (arr.length > 0) setPokemonList(arr);
   };
 

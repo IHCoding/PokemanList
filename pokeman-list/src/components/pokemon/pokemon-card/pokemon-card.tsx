@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {
-  PokemonItem,
-  PokemonItemDetails,
-} from '../../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
 import Image from '../../../utils/custom-components/image/image';
 
 const PokemonCardContainerRoot = styled.div`
@@ -49,42 +46,48 @@ const PokemonCardContentDetails = styled.h3`
 `;
 
 interface Props {
-  pokemonItem: PokemonItem;
+  pokemonItemDetails: PokemonItemDetails;
   key: string;
 }
 
-const PokemonCard: React.FC<Props> = ({ pokemonItem }: Props) => {
-  const [pokemonItemDetails, setPokemonDetails] =
-    useState<PokemonItemDetails>();
+const PokemonCard: React.FC<Props> = (props: Props) => {
+  // console.log('pokemonItem', props.pokemonItemDetail);
 
-  const getPokemonItem = async () => {
-    const res = await fetch(pokemonItem.url);
-    const data = await res.json();
-    setPokemonDetails(data);
-  };
+  // const [pokemonItemDetail, setPokemonDetails] =
+  //   useState<pokemonItemDetail>();
 
-  useEffect(() => {
-    getPokemonItem();
-  }, [pokemonItem]);
+  // console.log('pokemonItemDetail', pokemonItemDetail);
+
+  // const getPokemonItem = async () => {
+  //   const res = await fetch(pokemonItem.url);
+  //   console.log('datatest', pokemonItem.url);
+
+  //   const data = await res.json();
+  //   setPokemonDetails(data);
+  // };
+
+  // useEffect(() => {
+  //   getPokemonItem();
+  // }, [pokemonItem]);
 
   return (
     <PokemonCardContainerRoot>
       <PokemonCardImage
-        src={pokemonItemDetails?.sprites.other.dream_world.front_default}
+        src={props.pokemonItemDetails?.sprites.other.dream_world.front_default}
       />
       <PokemonCardContentContainer>
         <PokemonCardContentDetails>
-          Name:&nbsp; {pokemonItemDetails?.name}
+          Name:&nbsp; {props.pokemonItemDetails?.name}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
-          Height:&nbsp; {pokemonItemDetails?.height}
+          Height:&nbsp; {props.pokemonItemDetails?.height}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
-          Weight:&nbsp; {pokemonItemDetails?.weight}
+          Weight:&nbsp; {props.pokemonItemDetails?.weight}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
           Abilities:&nbsp;
-          {pokemonItemDetails?.abilities.map((item, index) => (
+          {props.pokemonItemDetails?.abilities.map((item, index) => (
             <div key={index}>{item.ability.name}&nbsp;</div>
           ))}
         </PokemonCardContentDetails>

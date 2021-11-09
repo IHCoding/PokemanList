@@ -39,7 +39,12 @@ const HeaderName = styled.div`
   margin-left: 10px;
 `;
 
-export const Header: React.FC = () => {
+interface Props {
+  setFilterArr: any;
+  pokemonItems: any;
+}
+
+export const Header: React.FC<Props> = (props: Props) => {
   return (
     <HeaderRoot>
       <HeaderInner>
@@ -48,7 +53,10 @@ export const Header: React.FC = () => {
         </HeaderMain>
 
         <HeaderSub>
-          <HeaderSearch />
+          <HeaderSearch
+            setFilterArr={props.setFilterArr}
+            pokemonItems={props.pokemonItems}
+          />
         </HeaderSub>
       </HeaderInner>
     </HeaderRoot>
