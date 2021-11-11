@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PokemonItemDetails } from '../../utils/cmd/data-types/data-types';
 import HeaderSearch from './header-search/header-search';
 
 const HeaderRoot = styled.header`
   display: flex;
   height: 75px;
+  width: auto;
   align-items: center;
   background-color: #484752;
+  // min-width: 400px;
 `;
 
 const HeaderInner = styled.div`
@@ -17,6 +20,7 @@ const HeaderInner = styled.div`
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
+  // min-width: 500px;
 `;
 
 const HeaderMain = styled.div`
@@ -35,16 +39,20 @@ const HeaderName = styled.div`
   color: #ffffff;
   background-color: none;
   font-size: 30px;
-  margin-right: auto;
+  // margin-right: auto;
   margin-left: 10px;
 `;
 
 interface Props {
   setFilterArr: any;
-  pokemonItems: any;
+  pokemonItemsDetails: PokemonItemDetails[];
+  setSearchQuery: any;
+  searchQuery: string;
 }
 
 export const Header: React.FC<Props> = (props: Props) => {
+  const { setFilterArr, pokemonItemsDetails, setSearchQuery, searchQuery } =
+    props;
   return (
     <HeaderRoot>
       <HeaderInner>
@@ -54,8 +62,10 @@ export const Header: React.FC<Props> = (props: Props) => {
 
         <HeaderSub>
           <HeaderSearch
-            setFilterArr={props.setFilterArr}
-            pokemonItems={props.pokemonItems}
+            setFilterArr={setFilterArr}
+            pokemonItemsDetails={pokemonItemsDetails}
+            setSearchQuery={setSearchQuery}
+            searchQuery={searchQuery}
           />
         </HeaderSub>
       </HeaderInner>

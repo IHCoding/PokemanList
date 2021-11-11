@@ -9,7 +9,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AppRoot>
-        <PokemonCardList />
+        <PokemonCardList pokemonItemDetails={[]} />
       </AppRoot>
     </ThemeProvider>
   );

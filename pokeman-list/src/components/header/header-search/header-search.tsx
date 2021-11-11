@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { PokemonItem } from '../../../utils/cmd/data-types/data-types';
+import {
+  PokemonItem,
+  PokemonItemDetails,
+} from '../../../utils/cmd/data-types/data-types';
 import SearchIcon from '../../../utils/custom-components/icons/search-icon';
 import useDebounce from '../../../utils/custom-hooks';
 
 import PokemonContext from '../../../context/pokemon-context';
+import { isConditionalExpression } from 'typescript';
 
 const HeaderSearchRoot = styled.div`
   border-radius: ${(props) => props.theme.spacing(1)};
@@ -32,55 +36,34 @@ const HeaderSearchInput = styled.input`
   text-indent: ${(props) => props.theme.spacing(7)};
   height: 30px;
   width: 300px;
+  right: 40px;
 `;
 
 interface Props {
-  pokemonItems: PokemonItem[];
+  pokemonItemsDetails: PokemonItemDetails[];
   setFilterArr: any;
+  searchQuery: string;
+  setSearchQuery: any;
 }
 
 export const HeaderSearch: React.FC<Props> = (props: Props) => {
-  const pokemonCtx = useContext(PokemonContext);
-
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const debouncedSearchTerm: string = useDebounce(searchQuery, 500);
-  const [searchResults, setSearchResults] = useState<PokemonItem[]>([]);
+  const debouncedSearchTerm: string = useDebounce(props.searchQuery, 500);
+  //props
+  const { searchQuery, setSearchQuery, pokemonItemsDetails, setFilterArr } =
+    props;
 
   useEffect(() => {
     if (debouncedSearchTerm.length > 0) {
-      if (props.pokemonItems.length > 0) {
-        const newdata = props.pokemonItems.filter((items) =>
+      if (pokemonItemsDetails.length > 0) {
+        const newdata = pokemonItemsDetails.filter((items) =>
           items.name.includes(debouncedSearchTerm)
         );
-
-        props.setFilterArr(newdata);
+        setFilterArr(newdata);
       } else {
-        props.setFilterArr([]);
+        setFilterArr([]);
       }
-
-      (async () => {
-        // console.log('debouncedSearchTerm', debouncedSearchTerm);
-        try {
-          const res = await fetch(
-            // `https://pokeapi.co/api/v2/pokemon?name=${debouncedSearchTerm}`
-            `https://pokeapi.co/api/v2/pokemon/${debouncedSearchTerm}`
-          );
-          if (!res.ok) {
-            const err = res.statusText;
-            throw new Error(err);
-          }
-          const data = await res.json();
-
-          // console.log(data);
-          pokemonCtx.getSearchItems(data);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    } else {
-      setSearchResults([]);
     }
-  }, [debouncedSearchTerm, pokemonCtx]);
+  }, [debouncedSearchTerm]);
 
   return (
     <HeaderSearchRoot>

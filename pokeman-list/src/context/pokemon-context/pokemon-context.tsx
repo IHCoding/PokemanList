@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { PokemonItem } from '../../utils/cmd/data-types/data-types';
+import {
+  PokemonItem,
+  PokemonItemDetails,
+} from '../../utils/cmd/data-types/data-types';
+import pokemanTheme from '../../utils/themes/PokemanTheme';
 
 export interface PokemonContextProps {
   children: React.ReactNode | React.ReactNode[];
@@ -34,12 +38,16 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
 
   const getPokemons = async (url: string, text?: string | null) => {
     setLoading(true);
+
     const response: any = await fetch(url);
     const data = await response.json();
 
-    setPokemonList(data.results);
-    setPreviousPage(data.previous);
-    setNextPage(data.next);
+    if (!text) {
+      setPokemonList(data.results);
+      setPreviousPage(data.previous);
+      setNextPage(data.next);
+    }
+
     setLoading(false);
   };
 
@@ -54,7 +62,7 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
   };
 
   const getSearchedPokemons = (arr: PokemonItem[]) => {
-    // console.log('arrvalue', arr);
+    console.log('arrvalue', arr);
     if (arr.length > 0) setPokemonList(arr);
   };
 

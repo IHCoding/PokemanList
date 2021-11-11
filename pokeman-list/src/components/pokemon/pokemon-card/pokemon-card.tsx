@@ -51,43 +51,25 @@ interface Props {
 }
 
 const PokemonCard: React.FC<Props> = (props: Props) => {
-  // console.log('pokemonItem', props.pokemonItemDetail);
-
-  // const [pokemonItemDetail, setPokemonDetails] =
-  //   useState<pokemonItemDetail>();
-
-  // console.log('pokemonItemDetail', pokemonItemDetail);
-
-  // const getPokemonItem = async () => {
-  //   const res = await fetch(pokemonItem.url);
-  //   console.log('datatest', pokemonItem.url);
-
-  //   const data = await res.json();
-  //   setPokemonDetails(data);
-  // };
-
-  // useEffect(() => {
-  //   getPokemonItem();
-  // }, [pokemonItem]);
-
+  const { pokemonItemDetails } = props;
   return (
     <PokemonCardContainerRoot>
       <PokemonCardImage
-        src={props.pokemonItemDetails?.sprites.other.dream_world.front_default}
+        src={pokemonItemDetails?.sprites.other.dream_world.front_default}
       />
       <PokemonCardContentContainer>
         <PokemonCardContentDetails>
-          Name:&nbsp; {props.pokemonItemDetails?.name}
+          Name:&nbsp; {pokemonItemDetails?.name}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
-          Height:&nbsp; {props.pokemonItemDetails?.height}
+          Height:&nbsp; {pokemonItemDetails?.height}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
-          Weight:&nbsp; {props.pokemonItemDetails?.weight}
+          Weight:&nbsp; {pokemonItemDetails?.weight}
         </PokemonCardContentDetails>
         <PokemonCardContentDetails>
           Abilities:&nbsp;
-          {props.pokemonItemDetails?.abilities.map((item, index) => (
+          {pokemonItemDetails?.abilities.map((item, index) => (
             <div key={index}>{item.ability.name}&nbsp;</div>
           ))}
         </PokemonCardContentDetails>

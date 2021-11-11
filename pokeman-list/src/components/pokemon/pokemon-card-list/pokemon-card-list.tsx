@@ -22,7 +22,7 @@ const CardListWrapper = styled.div`
 `;
 
 interface Props {
-  pokemonItemDetails?: PokemonItemDetails[];
+  pokemonItemDetails: PokemonItemDetails[];
 }
 
 export const PokemonCardList: React.FC<Props> = (props: Props) => {
@@ -33,10 +33,13 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
     PokemonItemDetails[]
   >([]);
 
+  //header search
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const [filterArr, setFilterArr] = useState<PokemonItemDetails[]>([]);
 
-  // getting items from api appending the date to the pokemonItemsDetails
-  const getPokemonItem = async (url: string) => {
+  // getting items from api, appending the data to the pokemonItemsDetails
+  const getPokemonItem = async (url: string, searchTerm?: string) => {
     const res = await fetch(url);
     const data = await res.json();
     setPokemonDetails((pokemonItemDetails) => [...pokemonItemDetails, data]);
@@ -44,25 +47,34 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
 
   // loop through the number of items fetched
   useEffect(() => {
-    pokemonCtx.pokemons.map((item, index) => getPokemonItem(item.url));
+    pokemonCtx.pokemons.map((item, index) =>
+      getPokemonItem(item.url ? item.url : '')
+    );
   }, [pokemonCtx.pokemons.length > 0]);
 
-  const filterListing = filterArr.length > 0 ? filterArr : pokemonItemDetails;
+  // whenever seraching will be passed filterArr, otherwise the deails
+  const filterListing = searchQuery.length > 0 ? filterArr : pokemonItemDetails;
 
   return (
     <>
-      <Header setFilterArr={setFilterArr} pokemonItems={pokemonItemDetails} />
+      <Header
+        setFilterArr={setFilterArr}
+        pokemonItemsDetails={pokemonItemDetails}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
+      />
       <CardListWrapper>
         <PokemonCardListRoot>
-          {filterListing &&
-            filterListing.map((item, index) => (
-              <PokemonCard
-                key={item.name + index.toString()}
-                pokemonItemDetails={item}
-              >
-                {item.name}
-              </PokemonCard>
-            ))}
+          {filterListing.length > 0
+            ? filterListing.map((item, index) => (
+                <PokemonCard
+                  key={item.name + index.toString()}
+                  pokemonItemDetails={item}
+                >
+                  {item.name}
+                </PokemonCard>
+              ))
+            : 'No data found'}
         </PokemonCardListRoot>
         <Pagination
           nextPage={pokemonCtx.nextPage}
