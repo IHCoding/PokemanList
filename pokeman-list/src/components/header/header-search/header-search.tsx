@@ -52,12 +52,44 @@ export const HeaderSearch: React.FC<Props> = (props: Props) => {
   const { searchQuery, setSearchQuery, pokemonItemsDetails, setFilterArr } =
     props;
 
+  // const IdmatchingItems = (array: [], idval: string) => {
+  //   const checking = array?.filter((item) => item.id !== idval);
+  //   return checking;
+  // };
+
   useEffect(() => {
     if (debouncedSearchTerm.length > 0) {
       if (pokemonItemsDetails.length > 0) {
-        const newdata = pokemonItemsDetails.filter((items) =>
-          items.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+        let newdata: any = [];
+
+        pokemonItemsDetails.filter((items) =>
+          items?.abilities.filter((data) => {
+            if (
+              data.ability.name
+                .toLowerCase()
+                .includes(debouncedSearchTerm.toLowerCase())
+            ) {
+              // const id = items.id
+              // console.log('items', items.abilities.indexOf.name);
+              // if (IdmatchingItems(newdata, items.id)) {
+              newdata.push(items);
+              console.log('ability', items);
+              // }
+            } else if (
+              items.name
+                .toLowerCase()
+                .includes(debouncedSearchTerm.toLowerCase())
+            ) {
+              // if (IdmatchingItems(newdata, items.id)) {
+              newdata.push(items);
+              console.log('namesearch', items);
+
+              // }
+            }
+          })
         );
+        console.log('amtriggering', newdata);
+
         setFilterArr(newdata);
       } else {
         setFilterArr([]);
