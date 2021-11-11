@@ -56,7 +56,7 @@ export const HeaderSearch: React.FC<Props> = (props: Props) => {
     if (debouncedSearchTerm.length > 0) {
       if (pokemonItemsDetails.length > 0) {
         const newdata = pokemonItemsDetails.filter((items) =>
-          items.name.includes(debouncedSearchTerm)
+          items.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
         );
         setFilterArr(newdata);
       } else {
