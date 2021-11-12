@@ -47,10 +47,29 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
 
   // loop through the number of items fetched
   useEffect(() => {
-    pokemonCtx.pokemons.map((item, index) =>
-      getPokemonItem(item.url ? item.url : '')
-    );
-  }, [pokemonCtx.pokemons.length > 0]);
+    const pageLimit = pokemonCtx.nextPage.split('?');
+    const offset = pageLimit[1];
+    const offsetSplit = offset?.split('&');
+    const offsetCount = offsetSplit && offsetSplit[0]?.split('=');
+
+    if (offsetCount) {
+      if (
+        parseInt(offsetCount[1]) === 0 ||
+        parseInt(offsetCount[1]) > pokemonItemDetails.length
+      ) {
+        pokemonCtx.pokemons.map((item, index) =>
+          getPokemonItem(item.url ? item.url : '')
+        );
+      } else {
+        setPokemonDetails(
+          pokemonItemDetails.slice(
+            0,
+            Math.min(pokemonItemDetails.length, parseInt(offsetCount[1]))
+          )
+        );
+      }
+    }
+  }, [pokemonCtx.pokemons.length > 0, pokemonCtx.nextPage]);
 
   // whenever seraching will be passed filterArr, otherwise the deails
   const filterListing = searchQuery.length > 0 ? filterArr : pokemonItemDetails;

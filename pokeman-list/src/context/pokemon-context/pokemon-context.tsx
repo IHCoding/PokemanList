@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  PokemonItem,
-  PokemonItemDetails,
-} from '../../utils/cmd/data-types/data-types';
-import pokemanTheme from '../../utils/themes/PokemanTheme';
+import { PokemonItem } from '../../utils/cmd/data-types/data-types';
 
 export interface PokemonContextProps {
   children: React.ReactNode | React.ReactNode[];
@@ -17,6 +13,7 @@ export const PokemonContext = React.createContext({
   pokemons: [] as PokemonItem[],
   getPrevious: () => {},
   getNext: () => {},
+  getItemsPerPage: (value: number) => {},
   nextPage: '',
   previousPage: '',
   loading: true,
@@ -35,6 +32,11 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
   const [loading, setLoading] = useState<boolean>(true);
 
   let API_URL = `https://pokeapi.co/api/v2/pokemon?limit=${pageLimit}&offset=0`;
+
+  const getItemsPerPage = (value: any) => {
+    console.log('valuenumbrer', value);
+    setPageLimit(value.target.value);
+  };
 
   const getPokemons = async (url: string, text?: string | null) => {
     setLoading(true);
@@ -68,7 +70,7 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
 
   useEffect(() => {
     getPokemons(API_URL);
-  }, [API_URL]);
+  }, [API_URL, pageLimit]);
 
   return (
     <PokemonContext.Provider
@@ -80,6 +82,7 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
         previousPage,
         loading,
         getSearchItems: getSearchedPokemons,
+        getItemsPerPage: getItemsPerPage,
       }}
     >
       {props.children}

@@ -69,6 +69,7 @@ export const HeaderSearch: React.FC<Props> = (props: Props) => {
                 .toLowerCase()
                 .includes(debouncedSearchTerm.toLowerCase())
             ) {
+              // @todo item.id needs to be checked for duplicate data.
               // const id = items.id
               // console.log('items', items.abilities.indexOf.name);
               // if (IdmatchingItems(newdata, items.id)) {
