@@ -7,6 +7,7 @@ export interface PokemonItem {
 }
 
 export interface PokemonItemDetails {
+    id: number;
     name: string;
     weight: string;
     height: string;

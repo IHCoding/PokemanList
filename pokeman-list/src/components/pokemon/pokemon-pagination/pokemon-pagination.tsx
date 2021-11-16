@@ -12,6 +12,13 @@ const PokemonPaginationRoot = styled.div`
   margin-right: 5%;
 `;
 
+const ButtonsStyle = styled.button`
+  margin: 4px;
+  border: none;
+
+  background-color: ${(props) => props.theme.palette.background.level3};
+`;
+
 const ItemPerPageSelected = styled.select`
   margin: 8px;
   border-radius: 4px;
@@ -34,22 +41,38 @@ export const PokemonPagination: React.FC<Props> = (props: Props) => {
   const pokemonCtx = useContext(PokemonContext);
 
   const handleItemsPerPage = (value: any) => {
-    if (value) {
-      setPageLimit(value);
-      pokemonCtx.getItemsPerPage(value);
-    }
+    console.log('value, value');
+    setPageLimit(value);
+    localStorage.setItem('pagelimit', value);
+    pokemonCtx.getItemsPerPage(value);
   };
+
+  useEffect(() => {
+    let currentValue = localStorage.getItem('pagelimit');
+
+    if (currentValue) {
+      setPageLimit(Number(currentValue));
+      handleItemsPerPage(currentValue);
+    }
+  }, []);
 
   return (
     <PokemonPaginationRoot>
-      <ItemPerPageSelected value={pageLimit} onChange={handleItemsPerPage}>
+      <ItemPerPageSelected
+        value={pageLimit}
+        onChange={(event) => handleItemsPerPage(event.target.value)}
+      >
         <label>Items per page:</label>
         {PokemonsPerPage.map((item, index) => (
-          <option value={item}>{item}</option>
+          <option key={index} value={item}>
+            {item}
+          </option>
         ))}
       </ItemPerPageSelected>
-      {prevPage && <button onClick={gotoPrevPage}> Previous {'<'}</button>}
-      {nextPage && <button onClick={gotoNextPage}>Next {'>'}</button>}
+      <ButtonsStyle>
+        {prevPage && <button onClick={gotoPrevPage}>{'<'} Previous </button>}
+        {nextPage && <button onClick={gotoNextPage}>Next {'>'}</button>}
+      </ButtonsStyle>
     </PokemonPaginationRoot>
   );
 };

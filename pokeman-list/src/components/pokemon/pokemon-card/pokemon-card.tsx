@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
 import Image from '../../../utils/custom-components/image/image';
 
@@ -47,13 +49,20 @@ const PokemonCardContentDetails = styled.h3`
 
 interface Props {
   pokemonItemDetails: PokemonItemDetails;
-  key: string;
 }
 
 const PokemonCard: React.FC<Props> = (props: Props) => {
   const { pokemonItemDetails } = props;
+  let navigate = useNavigate();
+
   return (
-    <PokemonCardContainerRoot>
+    <PokemonCardContainerRoot
+      onClick={() =>
+        navigate(`/details/${props.pokemonItemDetails.id}`, {
+          state: props.pokemonItemDetails,
+        })
+      }
+    >
       <PokemonCardImage
         src={pokemonItemDetails?.sprites.other.dream_world.front_default}
       />

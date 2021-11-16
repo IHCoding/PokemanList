@@ -9,7 +9,6 @@ const HeaderRoot = styled.header`
   width: auto;
   align-items: center;
   background-color: #484752;
-  // min-width: 400px;
 `;
 
 const HeaderInner = styled.div`
@@ -39,7 +38,6 @@ const HeaderName = styled.div`
   color: #ffffff;
   background-color: none;
   font-size: 30px;
-  // margin-right: auto;
   margin-left: 10px;
 `;
 

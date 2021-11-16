@@ -5,24 +5,35 @@ import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
 import Pagination from '../pokemon-pagination';
 import PokemonCard from '../pokemon-card';
 import PokemonContext from '../../../context/pokemon-context';
-
-const PokemonCardListRoot = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-`;
+import PokemonSorting from '../pokemon-sorting';
 
 const CardListWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  position: absolut;
   align-items: center;
   padding: 3rem 0.5rem;
   min-height: 100vh;
 `;
 
+const PokemonCardListRoot = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ToolbarContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: red;
+  margin: 8px;
+  padding: 0 16px;
+`;
+
 interface Props {
-  pokemonItemDetails: PokemonItemDetails[];
+  // pokemonItemDetails: PokemonItemDetails[];
 }
 
 export const PokemonCardList: React.FC<Props> = (props: Props) => {
@@ -37,6 +48,8 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [filterArr, setFilterArr] = useState<PokemonItemDetails[]>([]);
+
+  const [sortBy, setSortBy] = useState<keyof PokemonItemDetails>('name');
 
   // getting items from api, appending the data to the pokemonItemsDetails
   const getPokemonItem = async (url: string, searchTerm?: string) => {
@@ -74,6 +87,17 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
   // whenever seraching will be passed filterArr, otherwise the deails
   const filterListing = searchQuery.length > 0 ? filterArr : pokemonItemDetails;
 
+  const sortPokemons = (
+    pokemons: PokemonItemDetails[],
+    sortParam: keyof PokemonItemDetails
+  ): PokemonItemDetails[] => {
+    return pokemons.sort((aPokemon, bPokemon) => {
+      if (aPokemon[sortParam] < bPokemon[sortParam]) return -1;
+      if (aPokemon[sortParam] > bPokemon[sortParam]) return 1;
+      return 0;
+    });
+  };
+
   return (
     <>
       <Header
@@ -85,7 +109,7 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
       <CardListWrapper>
         <PokemonCardListRoot>
           {filterListing.length > 0
-            ? filterListing.map((item, index) => (
+            ? sortPokemons(filterListing, sortBy).map((item, index) => (
                 <PokemonCard
                   key={item.name + index.toString()}
                   pokemonItemDetails={item}
@@ -95,13 +119,20 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
               ))
             : 'No data found'}
         </PokemonCardListRoot>
+      </CardListWrapper>
+      <ToolbarContainer>
         <Pagination
           nextPage={pokemonCtx.nextPage}
           prevPage={pokemonCtx.previousPage}
           gotoNextPage={() => pokemonCtx.getNext()}
           gotoPrevPage={() => pokemonCtx.getPrevious()}
         />
-      </CardListWrapper>
+        <PokemonSorting
+          setSortBy={(criteria: any) => {
+            setSortBy(criteria);
+          }}
+        />
+      </ToolbarContainer>
     </>
   );
 };

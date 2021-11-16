@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { PokemonItem } from '../../utils/cmd/data-types/data-types';
 
 export interface PokemonContextProps {
@@ -35,7 +35,7 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
 
   const getItemsPerPage = (value: any) => {
     console.log('valuenumbrer', value);
-    setPageLimit(value.target.value);
+    setPageLimit(value);
   };
 
   const getPokemons = async (url: string, text?: string | null) => {

@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  PokemonItem,
-  PokemonItemDetails,
-} from '../../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
 import SearchIcon from '../../../utils/custom-components/icons/search-icon';
 import useDebounce from '../../../utils/custom-hooks';
-
-import PokemonContext from '../../../context/pokemon-context';
-import { isConditionalExpression } from 'typescript';
 
 const HeaderSearchRoot = styled.div`
   border-radius: ${(props) => props.theme.spacing(1)};
