@@ -1,12 +1,19 @@
 import React from 'react';
-import './App.css';
+import styled from 'styled-components';
+import PokemonCardList from './components/pokemon/pokemon-card-list';
+import { ThemeProvider } from 'styled-components';
+import theme from './utils/themes/PokemanTheme';
+import Routes from './components/routes/routes';
+const AppRoot = styled.div``;
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <AppRoot>
+        <Routes />
+      </AppRoot>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
