@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PokemonItemDetails } from '../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../models/pokemon-model/pokemon-model';
 import HeaderSearch from './header-search/header-search';
 
 const HeaderRoot = styled.header`
@@ -8,7 +8,7 @@ const HeaderRoot = styled.header`
   height: 75px;
   width: auto;
   align-items: center;
-  background-color: #484752;
+  background-color: #114152;
 `;
 
 const HeaderInner = styled.div`
@@ -19,12 +19,11 @@ const HeaderInner = styled.div`
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
-  // min-width: 500px;
+  min-width: 570px;
 `;
 
 const HeaderMain = styled.div`
-  display: flex;
-  align-items: center;
+  justify-content: space-between;
   flex-grow: 1;
 `;
 
@@ -36,9 +35,12 @@ const HeaderSub = styled.div`
 
 const HeaderName = styled.div`
   color: #ffffff;
-  background-color: none;
   font-size: 30px;
-  margin-left: 10px;
+  position: absolute;
+  display: flex;
+
+  left: 130px;
+  top: 15px;
 `;
 
 interface Props {

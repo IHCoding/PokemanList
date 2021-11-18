@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../../models/pokemon-model/pokemon-model';
 import SearchIcon from '../../../utils/custom-components/icons/search-icon';
 import useDebounce from '../../../utils/custom-hooks';
 
 const HeaderSearchRoot = styled.div`
   border-radius: ${(props) => props.theme.spacing(1)};
   background-color: rgba(229, 229, 226, 0.98);
-  display: flex;
-  right: 4%;
-  margin: ${(props) => `${props.theme.spacing(-14)}`};
+  right: 130px;
+  position: absolute;
   padding: ${(props) => `${props.theme.spacing(1)} 0`};
-  position: relative;
 `;
 
 const HeaderSearchIcon = styled(SearchIcon)`
@@ -41,15 +39,10 @@ interface Props {
 }
 
 export const HeaderSearch: React.FC<Props> = (props: Props) => {
-  const debouncedSearchTerm: string = useDebounce(props.searchQuery, 500);
-  //props
   const { searchQuery, setSearchQuery, pokemonItemsDetails, setFilterArr } =
     props;
 
-  // const IdmatchingItems = (array: [], idval: string) => {
-  //   const checking = array?.filter((item) => item.id !== idval);
-  //   return checking;
-  // };
+  const debouncedSearchTerm: string = useDebounce(props.searchQuery, 500);
 
   useEffect(() => {
     if (debouncedSearchTerm.length > 0) {
@@ -63,27 +56,16 @@ export const HeaderSearch: React.FC<Props> = (props: Props) => {
                 .toLowerCase()
                 .includes(debouncedSearchTerm.toLowerCase())
             ) {
-              // @todo item.id needs to be checked for duplicate data.
-              // const id = items.id
-              // console.log('items', items.abilities.indexOf.name);
-              // if (IdmatchingItems(newdata, items.id)) {
               newdata.push(items);
-              console.log('ability', items);
-              // }
             } else if (
               items.name
                 .toLowerCase()
                 .includes(debouncedSearchTerm.toLowerCase())
             ) {
-              // if (IdmatchingItems(newdata, items.id)) {
               newdata.push(items);
-              console.log('namesearch', items);
-
-              // }
             }
           })
         );
-        console.log('amtriggering', newdata);
 
         setFilterArr(newdata);
       } else {

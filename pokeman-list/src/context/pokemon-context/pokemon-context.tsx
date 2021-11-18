@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { PokemonItem } from '../../utils/cmd/data-types/data-types';
+import React, { useEffect, useState } from 'react';
+import { PokemonItem } from '../../models/pokemon-model/pokemon-model';
 
 export interface PokemonContextProps {
   children: React.ReactNode | React.ReactNode[];
@@ -27,44 +27,40 @@ export const PokemonProvider: React.FC<PokemonContextProps> = (
 ) => {
   const [pokemonList, setPokemonList] = useState<PokemonItem[]>([]);
   const [pageLimit, setPageLimit] = useState<number>(20);
+
   const [nextPage, setNextPage] = useState('');
   const [previousPage, setPreviousPage] = useState('');
+
   const [loading, setLoading] = useState<boolean>(true);
 
   let API_URL = `https://pokeapi.co/api/v2/pokemon?limit=${pageLimit}&offset=0`;
 
-  const getItemsPerPage = (value: any) => {
-    console.log('valuenumbrer', value);
-    setPageLimit(value);
-  };
-
-  const getPokemons = async (url: string, text?: string | null) => {
+  const getPokemons = async (url: string) => {
     setLoading(true);
 
     const response: any = await fetch(url);
     const data = await response.json();
 
-    if (!text) {
-      setPokemonList(data.results);
-      setPreviousPage(data.previous);
-      setNextPage(data.next);
-    }
+    setPokemonList(data.results);
+    setPreviousPage(data.previous);
+    setNextPage(data.next);
 
     setLoading(false);
   };
 
   const getNextPokemons = () => {
     getPokemons(nextPage);
-    console.log('next page', nextPage);
   };
 
   const getPreviousPokemons = () => {
     getPokemons(previousPage);
-    console.log('previous page', previousPage);
+  };
+
+  const getItemsPerPage = (value: any) => {
+    setPageLimit(value);
   };
 
   const getSearchedPokemons = (arr: PokemonItem[]) => {
-    console.log('arrvalue', arr);
     if (arr.length > 0) setPokemonList(arr);
   };
 

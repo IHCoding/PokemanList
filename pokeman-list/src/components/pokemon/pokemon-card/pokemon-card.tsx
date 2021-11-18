@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../../models/pokemon-model/pokemon-model';
 import Image from '../../../utils/custom-components/image/image';
 
 const PokemonCardContainerRoot = styled.div`
@@ -58,8 +58,8 @@ const PokemonCard: React.FC<Props> = (props: Props) => {
   return (
     <PokemonCardContainerRoot
       onClick={() =>
-        navigate(`/details/${props.pokemonItemDetails.id}`, {
-          state: props.pokemonItemDetails,
+        navigate(`/details/${pokemonItemDetails.id}`, {
+          state: pokemonItemDetails,
         })
       }
     >

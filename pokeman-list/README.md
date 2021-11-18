@@ -1,3 +1,21 @@
+# ABOUT THE APP
+
+# --------------------------------------------------------
+
+# This projects is aimed to fetch data from teh Pokemon API
+
+# Display list of pokemons with name, height, weight, abilities within their images.
+
+# Pokemons can be fetched by cliking on the number of items to be fetched.
+
+# Next button and previous buttons will be active as far as for the start and end of the pokemons list.
+
+# Pokemons can be sorted by Id, name, height, weight, abilities.
+
+# Each on click will display details, which has basic info.
+
+# --------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

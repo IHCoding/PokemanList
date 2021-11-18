@@ -3,20 +3,16 @@ import styled from 'styled-components';
 import PokemonContext from '../../../context/pokemon-context';
 
 const PokemonPaginationRoot = styled.div`
-  display: flex;
   position: absolute;
   top: 5%;
-  right: 40px;
-  border-radius: 4px;
   margin-top: 50px;
-  margin-right: 5%;
+  right: 130px;
 `;
 
 const ButtonsStyle = styled.button`
   margin: 4px;
+  padding: 4px;
   border: none;
-
-  background-color: ${(props) => props.theme.palette.background.level3};
 `;
 
 const ItemPerPageSelected = styled.select`
@@ -41,7 +37,6 @@ export const PokemonPagination: React.FC<Props> = (props: Props) => {
   const pokemonCtx = useContext(PokemonContext);
 
   const handleItemsPerPage = (value: any) => {
-    console.log('value, value');
     setPageLimit(value);
     localStorage.setItem('pagelimit', value);
     pokemonCtx.getItemsPerPage(value);
@@ -70,8 +65,22 @@ export const PokemonPagination: React.FC<Props> = (props: Props) => {
         ))}
       </ItemPerPageSelected>
       <ButtonsStyle>
-        {prevPage && <button onClick={gotoPrevPage}>{'<'} Previous </button>}
-        {nextPage && <button onClick={gotoNextPage}>Next {'>'}</button>}
+        {prevPage && (
+          <button
+            style={{ border: 'none', marginLeft: '4px' }}
+            onClick={gotoPrevPage}
+          >
+            {'<<'} Previous{' '}
+          </button>
+        )}
+        {nextPage && (
+          <button
+            style={{ border: 'none', marginLeft: '4px' }}
+            onClick={gotoNextPage}
+          >
+            Next {'>>'}
+          </button>
+        )}
       </ButtonsStyle>
     </PokemonPaginationRoot>
   );

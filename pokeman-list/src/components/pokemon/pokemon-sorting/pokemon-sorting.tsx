@@ -4,19 +4,17 @@ import styled from 'styled-components';
 const PokemonSortingRoot = styled.div`
   display: flex;
   align-item: center;
-  justify-content: space-between;
+  flex-direction: row;
   position: absolute;
   top: 5%;
-  left: 60px;
-  border-radius: 4px;
+  left: 130px;
   margin-top: 50px;
-  margin-right: 5%;
-  background-color: ${(props) => props.theme.palette.background.level2};
 `;
 
 const PokemonSortLabel = styled.div`
   margin: 0 4px;
   font-size: 18px;
+  color: black;
 `;
 
 interface Props {

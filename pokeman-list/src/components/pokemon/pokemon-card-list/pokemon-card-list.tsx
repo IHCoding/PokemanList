@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../../../components/header';
-import { PokemonItemDetails } from '../../../utils/cmd/data-types/data-types';
+import { PokemonItemDetails } from '../../../models/pokemon-model/pokemon-model';
 import Pagination from '../pokemon-pagination';
 import PokemonCard from '../pokemon-card';
 import PokemonContext from '../../../context/pokemon-context';
@@ -10,7 +10,6 @@ import PokemonSorting from '../pokemon-sorting';
 const CardListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolut;
   align-items: center;
   padding: 3rem 0.5rem;
   min-height: 100vh;
@@ -19,24 +18,24 @@ const CardListWrapper = styled.div`
 const PokemonCardListRoot = styled.div`
   display: flex;
   flex-wrap: wrap;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  min-width: 570px;
+  margin: 24px 8px;
 `;
 
-const ToolbarContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: red;
-  margin: 8px;
-  padding: 0 16px;
+const ToolbarContainerTop = styled.div`
+  color: #ffffff;
+  right: 130px;
+  margin: 24px 8px;
 `;
 
-interface Props {
-  // pokemonItemDetails: PokemonItemDetails[];
-}
-
-export const PokemonCardList: React.FC<Props> = (props: Props) => {
+const ToolbarContainerBottom = styled.div`
+  position: relative;
+  color: #ffffff;
+  padding: 20px 0;
+  bottom: 90px;
+`;
+export const PokemonCardList: React.FC = () => {
   const pokemonCtx = useContext(PokemonContext);
 
   // maintaining details and filtering according to the name search
@@ -44,7 +43,6 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
     PokemonItemDetails[]
   >([]);
 
-  //header search
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [filterArr, setFilterArr] = useState<PokemonItemDetails[]>([]);
@@ -58,7 +56,6 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
     setPokemonDetails((pokemonItemDetails) => [...pokemonItemDetails, data]);
   };
 
-  // loop through the number of items fetched
   useEffect(() => {
     const pageLimit = pokemonCtx.nextPage.split('?');
     const offset = pageLimit[1];
@@ -84,7 +81,7 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
     }
   }, [pokemonCtx.pokemons.length > 0, pokemonCtx.nextPage]);
 
-  // whenever seraching will be passed filterArr, otherwise the deails
+  // whenever seraching will be passed filterArr, otherwise the details
   const filterListing = searchQuery.length > 0 ? filterArr : pokemonItemDetails;
 
   const sortPokemons = (
@@ -120,7 +117,8 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
             : 'No data found'}
         </PokemonCardListRoot>
       </CardListWrapper>
-      <ToolbarContainer>
+
+      <ToolbarContainerTop>
         <Pagination
           nextPage={pokemonCtx.nextPage}
           prevPage={pokemonCtx.previousPage}
@@ -132,7 +130,21 @@ export const PokemonCardList: React.FC<Props> = (props: Props) => {
             setSortBy(criteria);
           }}
         />
-      </ToolbarContainer>
+      </ToolbarContainerTop>
+
+      <ToolbarContainerBottom>
+        <Pagination
+          nextPage={pokemonCtx.nextPage}
+          prevPage={pokemonCtx.previousPage}
+          gotoNextPage={() => pokemonCtx.getNext()}
+          gotoPrevPage={() => pokemonCtx.getPrevious()}
+        />
+        <PokemonSorting
+          setSortBy={(criteria: any) => {
+            setSortBy(criteria);
+          }}
+        />
+      </ToolbarContainerBottom>
     </>
   );
 };
